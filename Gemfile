@@ -6,5 +6,6 @@ source "https://rubygems.org"
 
 ruby "2.5.1"
 
+gem "pry"
 gem "saml_idp"
 gem "sinatra"
