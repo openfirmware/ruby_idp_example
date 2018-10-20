@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
-
+require 'base64'
+require 'open-uri'
+require 'openssl'
+require 'pry'
+require 'saml_idp'
 require 'sinatra'
+require 'uuid'
+require 'zlib'
 
 # Use HTTP Basic Rack middleware, which will apply HTTP Basic 
 # authentication to *all* requests.
@@ -11,9 +17,55 @@ use Rack::Auth::Basic do |username, password|
   true # accept anything
 end
 
-# Single route for matching a single sign-on request
-get '/saml/sso' do
-  saml_request = params['SAMLRequest']
-  relay_state = params['RelayState']
+# Dummy user class for SAML 2.0 attributes
+class User
+  def email_address(p = nil)
+    "#{p}@example.com"
+  end
+
+  def transient(p = nil)
+    1
+  end
+
+  def persistent(p = nil)
+    1
+  end
 end
 
+# Single route for matching a single sign-on request
+get '/saml/sso' do
+  base64_saml_request = params['SAMLRequest']
+  deflated_saml_request = Base64.strict_decode64(base64_saml_request)
+  saml_request = Zlib::Inflate.inflate(deflated_saml_request)
+  relay_state = params['RelayState']
+
+  request = SamlIdp::Request.new(saml_request)
+  
+  reference_id = UUID.generate
+  response_id = UUID.generate
+  opt_issuer_uri = "http://#{@env["SERVER_NAME"]}:#{@env["SERVER_PORT"]}/"
+  principal = User.new
+  audience_uri = request.issuer
+  saml_request_id = request.request_id
+  acs_url = request.acs_url
+  default_algorithm = OpenSSL::Digest::SHA256
+  my_authn_context_classref = Saml::XML::Namespaces::AuthnContext::ClassRef::PASSWORD
+  expiry = 60 * 60 # 1 hour
+  encryption_opts = nil
+  session_expiry = 0 # 0s = never
+
+  SamlIdp::SamlResponse.new(
+          reference_id,
+          response_id,
+          opt_issuer_uri,
+          principal,
+          audience_uri,
+          saml_request_id,
+          acs_url,
+          default_algorithm,
+          my_authn_context_classref,
+          expiry,
+          encryption_opts,
+          session_expiry
+        ).build
+end
