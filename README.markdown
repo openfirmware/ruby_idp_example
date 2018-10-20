@@ -48,15 +48,14 @@ Please see the [HTTP Basic][authorization] documentation for how to format and e
 
 Once the Identity Provider re-receives the request with the `Authorization` header set, it will parse the header to verify its format, and respond with the SAML 2.0 Authentication Response document.
 
-```xml
+```
 HTTP/1.1 200 OK
 Content-Type: text/xml
 
-<samlp:Response …>
-    …
+<base64 encoded SAML Authentication Response>
 ```
 
-The client can then POST this document to the Service Provider SAML callback URL and continue the SAML workflow.
+The client can then POST this document to the Service Provider SAML audience URL (parsed from the SAML Authentication Response) and continue the SAML workflow.
 
 [authorization]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization
 [www-authenticate]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/WWW-Authenticate
