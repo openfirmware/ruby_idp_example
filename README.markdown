@@ -28,7 +28,7 @@ $ bundle exec script/server --host localhost --port 7000 \
 
 If one of `sslprivkey` or `sslcert` are omitted, then HTTPS will not be enabled.
 
-The SAML 2.0 SSO callback url is `/saml/sso/redirect`, case sensitive. Service Providers should redirect clients to this URL for authentication.
+The SAML 2.0 SSO callback url is `/saml/sso`, case sensitive. Service Providers should redirect clients to this URL for authentication.
 
 When the client makes a GET request to the callback URL with the SAML Authentication Request query parameters, this Identity Provider will send back a `401 Unauthorized` response:
 
@@ -42,7 +42,7 @@ WWW-Authenticate: Basic realm="SAML 2.0 IdP", charset="utf-8"
 This includes a [header that requests HTTP Basic authentication][www-authenticate]. The client must then re-send the request with a valid HTTP Basic header. In the case of this Identity Provider, *any* username and password will be accepted.
 
 ```
-GET /saml/sso/redirect?SAMLRequest=<DATA>&RelayState=<TOKEN> HTTP/1.1
+GET /saml/sso?SAMLRequest=<DATA>&RelayState=<TOKEN> HTTP/1.1
 Accept: */*
 Host: localhost:7000
 Authorization: Basic <base64 encoded credentials>
