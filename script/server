@@ -2,14 +2,6 @@
 
 require 'sinatra'
 
-host = "localhost"
-port = 7000
-
-configure do
-  set :bind, host
-  set :port, port
-end
-
 # Use HTTP Basic Rack middleware, which will apply HTTP Basic 
 # authentication to *all* requests.
 # Normally this is where you would validate the username and password

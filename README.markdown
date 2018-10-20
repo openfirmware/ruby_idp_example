@@ -21,12 +21,8 @@ $ bundle install
 To start up the server:
 
 ```terminal
-$ bundle exec script/server --host localhost --port 7000 \
-        --sslprivkey /etc/ssl/live/domain.key \
-        --sslcert /etc/ssl/live/domain.crt
+$ bundle exec script/server -o localhost -p 7000
 ```
-
-If one of `sslprivkey` or `sslcert` are omitted, then HTTPS will not be enabled.
 
 The SAML 2.0 SSO callback url is `/saml/sso`, case sensitive. Service Providers should redirect clients to this URL for authentication.
 
