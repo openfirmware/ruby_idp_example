@@ -1,2 +1,18 @@
 #!/usr/bin/env ruby
 
+require 'sinatra'
+
+# Use HTTP Basic Rack middleware, which will apply HTTP Basic 
+# authentication to *all* requests.
+# Normally this is where you would validate the username and password
+# against a database or directory, but as this is a test IdP it can use
+# anything.
+use Rack::Auth::Basic do |username, password|
+  true # accept anything
+end
+
+# Single route for matching a single sign-on request
+get '/saml/sso' do
+  "howdy"
+end
+
