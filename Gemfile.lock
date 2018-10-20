@@ -1,11 +1,49 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (5.2.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    builder (3.2.3)
+    concurrent-ruby (1.0.5)
+    i18n (1.1.1)
+      concurrent-ruby (~> 1.0)
+    macaddr (1.7.1)
+      systemu (~> 2.6.2)
+    mini_portile2 (2.3.0)
+    minitest (5.11.3)
+    mustermann (1.0.3)
+    nokogiri (1.8.5)
+      mini_portile2 (~> 2.3.0)
+    rack (2.0.5)
+    rack-protection (2.0.4)
+      rack
+    saml_idp (0.7.2)
+      activesupport (>= 3.2)
+      builder (~> 3.0)
+      nokogiri (>= 1.6.2)
+      uuid (~> 2.3)
+    sinatra (2.0.4)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.4)
+      tilt (~> 2.0)
+    systemu (2.6.5)
+    thread_safe (0.3.6)
+    tilt (2.0.8)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+    uuid (2.3.9)
+      macaddr (~> 1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  saml_idp
+  sinatra
 
 RUBY VERSION
    ruby 2.5.1p57
